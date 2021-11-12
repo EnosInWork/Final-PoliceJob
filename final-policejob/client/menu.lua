@@ -1198,7 +1198,7 @@ end)
 	end, 1)
 
 
-	if not RageUI.Visible(mf6p) and not RageUI.Visible(inter) and not RageUI.Visible(info) and not RageUI.Visible(props) and not RageUI.Visible(renfort) and not RageUI.Visible(voiture) and not RageUI.Visible(chien) and not RageUI.Visible(cam) and not RageUI.Visible(voiture) and not RageUI.Visible(megaphone) and not RageUI.Visible(gererlicenses) and not RageUI.Visible(lspd_main) and not RageUI.Visible(lspd_adrcheck) and not RageUI.Visible(lspd_adr) and not RageUI.Visible(lspd_adrlaunch) then
+	if not RageUI.Visible(mf6p) and not RageUI.Visible(inter) and not RageUI.Visible(info) and not RageUI.Visible(props) and not RageUI.Visible(renfort) and not RageUI.Visible(voiture) and not RageUI.Visible(chien) and not RageUI.Visible(cam) and not RageUI.Visible(voiture) and not RageUI.Visible(megaphone) and not RageUI.Visible(gererlicenses) and not RageUI.Visible(lspd_main) and not RageUI.Visible(lspd_adrcheck) and not RageUI.Visible(lspd_adr) and not RageUI.Visible(lspd_adrlaunch) and not RageUI.Visible(fouille) then
 		mf6p = RMenu:DeleteType("mf6p", true)
 	end
 end
