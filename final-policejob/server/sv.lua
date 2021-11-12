@@ -455,11 +455,13 @@ end)
 RegisterNetEvent("corp:adrAdd")
 AddEventHandler("corp:adrAdd", function(builder)
     local _src = source
+	local xPlayer = ESX.GetPlayerFromId(_src)
+	local name = xPlayer.getName(_src)
     local date = os.date("*t", os.time()).day.."/"..os.date("*t", os.time()).month.."/"..os.date("*t", os.time()).year.." à "..os.date("*t", os.time()).hour.."h"..os.date("*t", os.time()).min
     MySQL.Async.execute('INSERT INTO adr (author,date,firstname,lastname,reason,dangerosity) VALUES (@a,@b,@c,@d,@e,@f)',
 
     { 
-        ['a'] = GetPlayerName(_src) ,
+        ['a'] = name,
         ['b'] = date,
         ['c'] = builder.firstname,
         ['d'] = builder.lastname,
@@ -504,11 +506,13 @@ end)
 RegisterNetEvent("corp:cjAdd")
 AddEventHandler("corp:cjAdd", function(builder)
     local _src = source
+	local xPlayer = ESX.GetPlayerFromId(_src)
+	local name = xPlayer.getName(_src)
     local date = os.date("*t", os.time()).day.."/"..os.date("*t", os.time()).month.."/"..os.date("*t", os.time()).year.." à "..os.date("*t", os.time()).hour.."h"..os.date("*t", os.time()).min
     MySQL.Async.execute('INSERT INTO cj (author,date,firstname,lastname,reason) VALUES (@a,@b,@c,@d,@e)',
 
     { 
-        ['a'] = GetPlayerName(_src) ,
+        ['a'] = name,
         ['b'] = date,
         ['c'] = builder.firstname,
         ['d'] = builder.lastname,
