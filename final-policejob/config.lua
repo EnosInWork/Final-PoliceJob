@@ -18,7 +18,6 @@ Config.Grade_Pour_Objets = 2  -- Accès Menu objets
 Config.Grade_Pour_Chien = 2 -- Accès Menu chien 
 Config.Grade_Pour_Camera = 2 -- Accès Menu caméra 
 Config.Grade_Pour_AvisRecherche = 1 -- Accès Menu adr 
-Config.Grade_Pour_Retirer_Coffre = 1
 --------------------
 Config.Grade_Pour_PPA = 7 -- retirer/donner ppa
 Config.Grade_Pour_Permis = 7 -- retirer/donner permis
