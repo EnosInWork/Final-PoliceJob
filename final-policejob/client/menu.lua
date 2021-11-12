@@ -118,7 +118,7 @@ end, GetPlayerServerId(player))
 end
 
 function getInformations(player)
-	ESX.TriggerServerCallback('identity:getOtherPlayerData', function(data)
+	ESX.TriggerServerCallback('finalpolice:getOtherPlayerData', function(data)
 		identityStats = data
 	end, GetPlayerServerId(player))
 end
