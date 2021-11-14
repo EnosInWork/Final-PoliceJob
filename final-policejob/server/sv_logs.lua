@@ -13,7 +13,7 @@ LogsLightBlue = 1752220
 
 RegisterNetEvent('Ise_Logs')
 AddEventHandler('Ise_Logs', function(Webhook, Color, Title, Description)
-	Ise_Logs3(Webhook, Color, Title, Description)
+	Ise_Logs(Webhook, Color, Title, Description)
 end)
 
 function Ise_Logs(webhook, Color, Title, Description)
