@@ -12,11 +12,11 @@ LogsGreen = 3066993
 LogsLightBlue = 1752220
 
 RegisterNetEvent('Ise_Logs')
-AddEventHandler('Ise_Logs', function(Color, Title, Description)
-	Ise_Logs(Color, Title, Description)
+AddEventHandler('Ise_Logs', function(Webhook, Color, Title, Description)
+	Ise_Logs3(Webhook, Color, Title, Description)
 end)
 
-function Ise_Logs(Color, Title, Description)
+function Ise_Logs(webhook, Color, Title, Description)
 	local Content = {
 	        {
 	            ["color"] = Color,
@@ -28,37 +28,7 @@ function Ise_Logs(Color, Title, Description)
 	            },
 	        }
 	    }
-	PerformHttpRequest(WebHook, function(err, text, headers) end, 'POST', json.encode({username = Name, embeds = Content}), { ['Content-Type'] = 'application/json' })
-end
-
-function Ise_Logs2(Color, Title, Description)
-	local Content = {
-	        {
-	            ["color"] = Color,
-	            ["title"] = Title,
-	            ["description"] = Description,
-		        ["footer"] = {
-	                ["text"] = Name,
-	                ["icon_url"] = Logo,
-	            },
-	        }
-	    }
-	PerformHttpRequest(WebHook2, function(err, text, headers) end, 'POST', json.encode({username = Name, embeds = Content}), { ['Content-Type'] = 'application/json' })
-end
-
-function Ise_Logs3(webhook3, Color, Title, Description)
-	local Content = {
-	        {
-	            ["color"] = Color,
-	            ["title"] = Title,
-	            ["description"] = Description,
-		        ["footer"] = {
-	                ["text"] = Name,
-	                ["icon_url"] = Logo,
-	            },
-	        }
-	    }
-	PerformHttpRequest(webhook3, function(err, text, headers) end, 'POST', json.encode({username = Name, embeds = Content}), { ['Content-Type'] = 'application/json' })
+	PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({username = Name, embeds = Content}), { ['Content-Type'] = 'application/json' })
 end
 
 --Ise_Logs(LogsGreen, "Serveur démarré", "Aucun soucis visible, tout est bon capitaine.")
