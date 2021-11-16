@@ -691,3 +691,25 @@ end
 end
   end
 end)
+
+------------------------------------
+
+RegisterServerEvent('add:addlic')
+AddEventHandler('add:addlic', function(permis)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+    MySQL.Async.execute('INSERT INTO user_licenses (type, owner) VALUES (@type, @owner)', {
+        ['@type'] = permis,
+        ['@owner'] = xPlayer.identifier
+    })
+end)
+
+RegisterServerEvent('sup:addlic')
+AddEventHandler('sup:addlic', function(permis)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+    MySQL.Async.execute('DELETE INTO user_licenses (type, owner) VALUES (@type, @owner)', {
+        ['@type'] = permis,
+        ['@owner'] = xPlayer.identifier
+    })
+end)

@@ -432,8 +432,8 @@ function Menuf6Police()
 			if (Selected) then   
 			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
-				TriggerServerEvent('esx_license:addLicense', GetPlayerServerId(closestPlayer), 'drive')
-				ESX.ShowNotification('Le joueur a bien perdu sont permis')
+					TriggerServerEvent('add:addlic', "drive")
+				ESX.ShowNotification('Le joueur a bien reçu sont permis')
 			 else
 				ESX.ShowNotification('Aucun joueurs à proximité')
 			end 
@@ -451,7 +451,7 @@ function Menuf6Police()
 			if (Selected) then   
 			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
-				TriggerServerEvent('esx_license:removeLicense', GetPlayerServerId(closestPlayer), 'drive')
+					TriggerServerEvent('add:sup:addlic', "drive")
 				ESX.ShowNotification('Le joueur a bien perdu sont permis')
 			 else
 				ESX.ShowNotification('Aucun joueurs à proximité')
@@ -470,8 +470,8 @@ function Menuf6Police()
 				if (Selected) then   
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 					if closestPlayer ~= -1 and closestDistance <= 3.0 then
-					TriggerServerEvent('esx_license:addLicense', GetPlayerServerId(closestPlayer), 'weapon')
-					ESX.ShowNotification('Le joueur a bien reçu sont permis')
+						TriggerServerEvent('add:addlic', "weapon")
+					ESX.ShowNotification('Le joueur a bien reçu sont ppa')
 				 else
 					ESX.ShowNotification('Aucun joueurs à proximité')
 				end 
@@ -489,7 +489,7 @@ function Menuf6Police()
 			if (Selected) then   
 			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
-				TriggerServerEvent('esx_license:removeLicense', GetPlayerServerId(closestPlayer), 'weapon')
+					TriggerServerEvent('add:sup:addlic', "weapon")
 			 else
 				ESX.ShowNotification('Aucun joueurs à proximité')
 			end 
