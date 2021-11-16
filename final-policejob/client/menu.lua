@@ -309,32 +309,21 @@ function Menuf6Police()
 
 	RageUI.IsVisible(inter, true, true, true, function()
 
-			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-			RageUI.ButtonWithStyle("Donner une amende", nil, {RightLabel = "→"}, true, function(Hovered, Active, Selected) 
-				if (Selected) then
-					local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-					if closestPlayer == -1 or closestDistance > 3.0 then
-						TriggerEvent("esx:showAdvancedNotification", '~r~Amende', '~b~Police', '~r~Il n\'y a personne autour de vous.', 'CHAR_BLOCKED', 'spawn', 8)
-					else
-		
-						local amount = KeyboardInput("Montant", "", 9)
-						amount = tonumber(amount)
-						if amount == nil then
-							ESX.ShowNotification('Mauvais montant')
-						else
-							menu.close()
-							local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-							if closestPlayer == -1 or closestDistance > 3.0 then
-								TriggerEvent("esx:showAdvancedNotification", '~r~Amende', '~b~Police', '~r~Il n\'y a personne autour de vous.', 'CHAR_BLOCKED', 'spawn', 8)
-							else
-								TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), "society_police", 'police', amount)
-		
-								ESX.ShowNotification('Facture envoyée')
-								LogsAmende()
-						end
-					end
+		local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+		RageUI.ButtonWithStyle("Donner une Amende",nil, {RightLabel = "→"}, true, function(Hovered, Active, Selected)
+			if Selected then
+				local target, distance = ESX.Game.GetClosestPlayer()
+				playerheading = GetEntityHeading(GetPlayerPed(-1))
+				playerlocation = GetEntityForwardVector(PlayerPedId())
+				playerCoords = GetEntityCoords(GetPlayerPed(-1))
+				local target_id = GetPlayerServerId(target)
+				if closestPlayer ~= -1 and closestDistance <= 3.0 then
+				RageUI.CloseAll()        
+				OpenBillingMenu() 
+				else
+				ESX.ShowNotification('Peronne autour')
 				end
-			end 
+			end
 		end)
 
 			RageUI.ButtonWithStyle("Vérification licence(s)", nil, {RightLabel = "→"}, closestPlayer ~= -1 and closestDistance <= 3.0, function()
@@ -2144,6 +2133,42 @@ Citizen.CreateThread(function()
     end
 end)
 
+function OpenBillingMenu()
+
+	ESX.UI.Menu.Open(
+	  'dialog', GetCurrentResourceName(), 'billing',
+	  {
+		title = "Amende"
+	  },
+	  function(data, menu)
+	  
+		local amount = tonumber(data.value)
+		local player, distance = ESX.Game.GetClosestPlayer()
+  
+		if player ~= -1 and distance <= 3.0 then
+  
+		  menu.close()
+		  if amount == nil then
+			  ESX.ShowNotification("~r~Problèmes~s~: Montant invalide")
+		  else
+			local playerPed        = GetPlayerPed(-1)
+			TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TIME_OF_DEATH', 0, true)
+			Citizen.Wait(5000)
+			  TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), "society_police", ('police'), amount)
+			  Citizen.Wait(100)
+			  ESX.ShowNotification("~r~Vous avez bien envoyer la facture")
+		  end
+  
+		else
+		  ESX.ShowNotification("~r~Problèmes~s~: Aucun joueur à proximitée")
+		end
+  
+	  end,
+	  function(data, menu)
+		  menu.close()
+	  end
+	)
+  end
 ---------------------------------- p. casier
 
 function CasierPolice()
