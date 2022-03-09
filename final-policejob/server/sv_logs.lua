@@ -50,7 +50,7 @@ AddEventHandler('playerDropped', function(reason)
 			break
 		end
 	end
-	Ise_Logs(LogsRed, "Deconnexion du serveur", "Nom : "..PcName.."\nLicense : license:"..identifier.."\nSteam : steam:"..steam.."\nRaison : "..reason)
+	Ise_Logs(WebHook, LogsRed, "Deconnexion du serveur", "Nom : "..PcName.."\nLicense : license:"..identifier.."\nSteam : steam:"..steam.."\nRaison : "..reason)
 end)
 
 
@@ -72,5 +72,5 @@ AddEventHandler("playerConnecting", function ()
 			break
 		end
 	end
-	Ise_Logs(LogsGreen, "Connexion au serveur", "Nom : "..PcName.."\nLicense : license:"..identifier.."\nSteam : steam:"..steam.."")
+	Ise_Logs(WebHook, LogsGreen, "Connexion au serveur", "Nom : "..PcName.."\nLicense : license:"..identifier.."\nSteam : steam:"..steam.."")
 end)
