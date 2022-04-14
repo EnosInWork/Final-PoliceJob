@@ -8,38 +8,35 @@ TriggerEvent('esx_society:registerSociety', 'police', 'Police', 'society_police'
 
 RegisterNetEvent('equipementbase')
 AddEventHandler('equipementbase', function()
-local _source = source
-local xPlayer = ESX.GetPlayerFromId(source)
-local identifier
-	local steam
-	local playerId = source
-	local PcName = GetPlayerName(playerId)
-	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
-		if string.match(v, 'license:') then
-			identifier = string.sub(v, 9)
-			break
-		end
-	end
-	for k,v in ipairs(GetPlayerIdentifiers(playerId)) do
-		if string.match(v, 'steam:') then
-			steam = string.sub(v, 7)
-			break
-		end
-	end
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
 
-xPlayer.addWeapon('WEAPON_NIGHTSTICK', 42)
-xPlayer.addWeapon('WEAPON_STUNGUN', 42)
-xPlayer.addWeapon('WEAPON_FLASHLIGHT', 42)
-TriggerClientEvent('esx:showNotification', source, "Vous avez reçu votre ~b~équipement de base")
+	xPlayer.addWeapon('WEAPON_NIGHTSTICK', Config.amountAmmo)
+	xPlayer.addWeapon('WEAPON_STUNGUN', Config.amountAmmo)
+	xPlayer.addWeapon('WEAPON_FLASHLIGHT', Config.amountAmmo)
+	TriggerClientEvent('esx:showNotification', source, "Vous avez reçu votre ~b~équipement de base")
 end)
 
 RegisterNetEvent('armurerie')
 AddEventHandler('armurerie', function(arme, prix)
-local _source = source
-local xPlayer = ESX.GetPlayerFromId(source)
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
 
-xPlayer.addWeapon(arme, 42)
-TriggerClientEvent('esx:showNotification', source, "Vous avez reçu votre arme~b~")
+	xPlayer.addWeapon(arme, Config.amountAmmo)
+	TriggerClientEvent('esx:showNotification', source, "Vous avez reçu votre arme~b~")
+end)
+
+RegisterNetEvent('finalpolice:arsenalvide')
+AddEventHandler('finalpolice:arsenalvide', function()
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+	for k,v in pairs(Config.armurerie) do
+		xPlayer.removeWeapon(string.upper(v.arme))
+	end
+	xPlayer.removeWeapon('WEAPON_NIGHTSTICK')
+	xPlayer.removeWeapon('WEAPON_STUNGUN')
+	xPlayer.removeWeapon('WEAPON_FLASHLIGHT')
+	TriggerClientEvent('esx:showNotification', source, "Vous avez posé tous vos armes")
 end)
 
 
@@ -380,7 +377,11 @@ ESX.RegisterServerCallback('finalpolice:getOtherPlayerData', function(source, cb
 			--argentpropre = xPlayer.getMoney()
         }
 
+        TriggerEvent('esx_license:getLicenses', target, function(licenses)
+                 print(json.encode(licenses))
+                data.licenses = licenses
         cb(data)
+        end)
     end
 end)
 

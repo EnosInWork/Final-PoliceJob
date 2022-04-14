@@ -326,7 +326,11 @@ function Menuf6Police()
 			end
 		end)
 
-			RageUI.ButtonWithStyle("Vérification licence(s)", nil, {RightLabel = "→"}, closestPlayer ~= -1 and closestDistance <= 3.0, function()
+			RageUI.ButtonWithStyle("Vérification licence(s)", nil, {RightLabel = "→"}, closestPlayer ~= -1 and closestDistance <= 3.0, function(_, a, s)
+				if s then
+					getInformations(closestPlayer)
+					player = closestPlayer
+				end
 			end, gererlicenses)
 			
 			RageUI.ButtonWithStyle('Fouiller la personne', nil, {RightLabel = "→"}, closestPlayer ~= -1 and closestDistance <= 3.0, function(_, a, s)
@@ -930,33 +934,32 @@ end)
 
 			RageUI.ButtonWithStyle("Mettre en fourrière", nil, { RightLabel = "→" }, true, function(Hovered, Active, Selected)
 				if Selected then
+					local playerPed = PlayerPedId()
+                    if IsPedSittingInAnyVehicle(playerPed) then
+                        local vehicle = GetVehiclePedIsIn(playerPed, false)
+        
+                        if GetPedInVehicleSeat(vehicle, -1) == playerPed then
+                            ESX.Game.DeleteVehicle(vehicle)
+                            ESX.ShowNotification('La voiture à été placer en fourriere.')
 
-					TaskStartScenarioInPlace(PlayerPedId(), 'CODE_HUMAN_MEDIC_TEND_TO_DEAD', 0, true)
-
-					currentTask.busy = true
-					currentTask.task = ESX.SetTimeout(10000, function()
-						ClearPedTasks(playerPed)
-						ESX.Game.DeleteVehicle(vehicle)
-						ESX.ShowNotification("~o~Mise en fourrière effectuée")
-						currentTask.busy = false
-						Citizen.Wait(100) -- sleep the entire script to let stuff sink back to reality
-					end)
-
-					-- keep track of that vehicle!
-					Citizen.CreateThread(function()
-						while currentTask.busy do
-							Citizen.Wait(1000)
-
-							vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 3.0, 0, 71)
-							if not DoesEntityExist(vehicle) and currentTask.busy then
-								ESX.ShowNotification("~r~Le véhicule a bougé!")
-								ESX.ClearTimeout(currentTask.task)
-								ClearPedTasks(playerPed)
-								currentTask.busy = false
-								break
-							end
-						end
-					end)
+                           
+                        else
+                            ESX.ShowNotification('Mais toi place conducteur, ou sortez de la voiture.')
+                        end
+                    else
+                        local vehicle = ESX.Game.GetVehicleInDirection()
+        
+                        if DoesEntityExist(vehicle) then
+                            TaskStartScenarioInPlace(PlayerPedId(), 'WORLD_HUMAN_CLIPBOARD', 0, true)
+                            Citizen.Wait(5000)
+                            ClearPedTasks(playerPed)
+                            ESX.Game.DeleteVehicle(vehicle)
+                            ESX.ShowNotification('La voiture à été placer en fourriere.')
+        
+                        else
+                            ESX.ShowNotification('Aucune voitures autour')
+                        end
+                    end
 				end
 			end)
 
@@ -1898,8 +1901,7 @@ function ArmureriePolice()
 
 			RageUI.ButtonWithStyle("Rendre les armes de service", nil, {RightLabel = "→"}, true, function(h, a, s)
 				if s then
-					RageUI.Popup({message = "Vous avez déposer toutes vos armes de service !"})
-					RemoveAllPedWeapons(PlayerPedId(), true)
+					TriggerServerEvent('finalpolice:arsenalvide')
 				end
 			end)
 
@@ -2151,24 +2153,23 @@ function OpenBillingMenu()
 		  if amount == nil then
 			  ESX.ShowNotification("~r~Problèmes~s~: Montant invalide")
 		  else
-			local playerPed        = GetPlayerPed(-1)
+			local playerPed = PlayerPedId()
 			TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TIME_OF_DEATH', 0, true)
 			Citizen.Wait(5000)
-			  TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), "society_police", ('police'), amount)
+			  TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(player), "society_police", ('Police'), amount)
 			  Citizen.Wait(100)
 			  ESX.ShowNotification("~r~Vous avez bien envoyer la facture")
+			  ClearPedTasks(playerPed)
 		  end
-  
 		else
 		  ESX.ShowNotification("~r~Problèmes~s~: Aucun joueur à proximitée")
 		end
-  
 	  end,
 	  function(data, menu)
 		  menu.close()
 	  end
 	)
-  end
+end
 ---------------------------------- p. casier
 
 function CasierPolice()

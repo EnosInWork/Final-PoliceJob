@@ -68,6 +68,8 @@ Config.armurerie = {
 	{nom = "M4", arme = "weapon_carbinerifle", minimum_grade = 7}
 }
 
+Config.amountAmmo = 200
+
 police = {
     clothes = {
         specials = {
